@@ -11,21 +11,20 @@ public QueenBoard(int sized){
   int[][] board = new int[sized][sized];
   for (int i=0;i<size;i++){
     for (int j=0;j<size;j++){
-      if (i==0) board[i][j]=1;
-      else board[i][j]=0;}
+      board[i][j]=0;}
   }
 }
 private boolean addQueen(int r, int c){
   if (board[r][c]==0){//checks if it's safe
   board[r][c]=-1;//puts down the queen
   for (int row=r;row<size;row++){
-    board[row][c]=1;
+    board[row][c]=1;//eliminates the row
   }
   for (int col=c;col<size;col++){
-    board[r][col]=1;
+    board[r][col]=1;//eliminates the column
   }
   board[r+1][c+1]=1;
-  board[r-1][c+1]=1;
+  board[r-1][c+1]=1;//elminates the diagonal parts
   return true;}
   return false;
 }
