@@ -1,23 +1,36 @@
 public class QueenBoard{
 private int[][] board;
+private int size;
 /**0-safe
 1-not safe
 -1-queen
 
 **/
 public QueenBoard(int size){
-  board= board[size][size]
+  size=size;
+  int[][] board = new int[size][size];
   for (int i=0;i<size;i++){
     for (int j=0;j<size;j++){
-    board[i][j]=0;}
+      if (i==0) board[i][j]=1;
+      else board[i][j]=0;}
   }
 }
 private boolean addQueen(int r, int c){
-  int[r][c]=-1;
+  if (board[r][c]==0){//checks if it's safe
+  board[r][c]=-1;//puts down the queen
+  for (int row=r;row<size;row++){
+    board[row][c]=1;
+  }
+  for (int col=c;col<size;col++){
+    board[r][col]=1;
+  }
+  board[r+1][c+1]=1;
+  board[r-1][c+1]=1;
+  return true;}
   return false;
 }
 private boolean removeQueen(int r, int c){
-  int[r][c]=1;
+  board[r][c]=1;
   return false;
 }
 /**
@@ -41,7 +54,7 @@ private boolean removeQueen(int r, int c){
       if (board[i][j]==-1) value+="Q ";
       else value+="_ ";}
     }
-    return value;
+    return value.substring(0,value.length()-1);
   }
 
 
@@ -52,12 +65,19 @@ private boolean removeQueen(int r, int c){
   *@throws IllegalStateException when the board starts with any non-zero value
   */
   public boolean solve(){
-    return solveHelper(size,0,0);
+    return solveHelper(size,0,0,false);
   }
-private boolean solveHelper(int size,int place,int putdown){
+private boolean solveHelper(int size,int queens,int putdown,boolean added){
   if (putdown==size) return true;
-  if(place==size) return false;
-  for (int i=0;i<size;i++)
+  if(queens==size) return false;
+  int spot=0;
+  if (added) putdown++;
+  int queen=queens;
+  for (int i=0;i<size;i++){
+    spot=board[i][queen];
+    solveHelper(size,queens+1,putdown, addQueen(i,queen));
+  }
+  return false;
 }
   /**
   *@return the number of solutions found, and leaves the board filled with only 0's
