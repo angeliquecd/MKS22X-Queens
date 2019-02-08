@@ -6,9 +6,9 @@ private int size;
 -1-queen
 
 **/
-public QueenBoard(int size){
-  size=size;
-  int[][] board = new int[size][size];
+public QueenBoard(int sized){
+  size=sized;
+  int[][] board = new int[sized][sized];
   for (int i=0;i<size;i++){
     for (int j=0;j<size;j++){
       if (i==0) board[i][j]=1;
@@ -51,10 +51,12 @@ private boolean removeQueen(int r, int c){
     String value="";
     for (int i=0;i<size;i++){
       for (int j=0;j<size;j++){
-      if (board[i][j]==-1) value+="Q ";
-      else value+="_ ";}
+      //if (board[i][j]==-1) value+="Q ";
+      //else
+      value+="_ ";}
+      value+="\n";
     }
-    return value.substring(0,value.length()-1);
+    return value;
   }
 
 
