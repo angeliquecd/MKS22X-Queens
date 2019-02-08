@@ -9,8 +9,8 @@ private int size;
 public QueenBoard(int sized){
   size=sized;
   int[][] board = new int[sized][sized];
-  for (int i=0;i<size;i++){
-    for (int j=0;j<size;j++){
+  for (int i=0;i<sized;i++){
+    for (int j=0;j<sized;j++){
       board[i][j]=0;}
   }
 }
@@ -46,6 +46,16 @@ private boolean removeQueen(int r, int c){
   *(pythonic string notation for clarity,
   *excludes the character up to the *)
   */
+  public String toStringDebug(){
+    String value="";
+    for(int i=0;i<size;i++){
+      for (int j=0;j<size;j++){
+        value+=board[i][j];
+      }
+      value+="\n";
+    }
+    return value;
+  }
   public String toString(){
     String value="";
     for (int i=0;i<size;i++){
