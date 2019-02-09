@@ -22,15 +22,11 @@ public boolean addQueen(int r, int c){
   }
   board[r][c]=-1;//puts down the queen
   if (c<size-1){
-    if (r<size-1){
-  board[r+1][c+1]+=1;}
-  if (r>0){
-  board[r-1][c+1]+=1;}}
+    if (r<size-1) board[r+1][c+1]+=1;
+    if (r>0) board[r-1][c+1]+=1;}
   if (c>0){
-    if (r<size-1){
-  board[r+1][c-1]+=1;}
-  if (r>0){
-  board[r-1][c-1]+=1;}}//eliminates the diagonal parts
+    if (r<size-1) board[r+1][c-1]+=1;
+    if (r>0) board[r-1][c-1]+=1;}//eliminates the diagonal parts
   return true;}
   return false;
 }
@@ -41,15 +37,11 @@ public boolean removeQueen(int r, int c){
     board[r][inc]-=1;//eliminates the column
   }
   if (c<size-1){
-    if (r<size-1){
-  board[r+1][c+1]-=1;}
-  if (r>0){
-  board[r-1][c+1]-=1;}}
+    if (r<size-1) board[r+1][c+1]-=1;
+  if (r>0)board[r-1][c+1]-=1;}
   if (c>0){
-    if (r<size-1){
-  board[r+1][c-1]-=1;}
-  if (r>0){
-  board[r-1][c-1]-=1;}}//eliminates the diagonal parts
+    if (r<size-1)board[r+1][c-1]-=1;
+    if (r>0) board[r-1][c-1]-=1;}//eliminates the diagonal parts
   board[r][c]=0;
   return true;}
   return false;
@@ -96,18 +88,22 @@ public boolean removeQueen(int r, int c){
   *@throws IllegalStateException when the board starts with any non-zero value
   */
   public boolean solve(){
-    return solveHelper(size,0,0,false);
+    return solveHelper(size,0,0,0,false,0,0);
   }
-private boolean solveHelper(int size,int queens,int putdown,boolean added){
+private boolean solveHelper(int size,int col,int row,int putdown,boolean added, int lastrow,int lastcol){
   if (putdown==size) return true;
-  if(queens==size) return false;
-  int spot=0;
+  if(col==size) return false;
+  if (row==size) {
+    removeQueen(lastrow,lastcol);
+    col--;}
   if (added) {
     putdown++;
-    spot++;}
-  for (int i=0;i+spot<size && queens<size;i++){
-  //  spot=board[i+spot][queens];
-    solveHelper(size,queens+1,putdown, addQueen(i+spot,queens));
+     lastrow=row;
+     lastcol=col;
+  }
+  for (int rowz=0;rowz<size && col<size;rowz++){
+    row=rowz;
+    solveHelper(size,col+1,row,putdown, addQueen(row,col+1),lastrow,lastcol);
   }
   return false;
 }
@@ -116,7 +112,8 @@ private boolean solveHelper(int size,int queens,int putdown,boolean added){
   *@throws IllegalStateException when the board starts with any non-zero value
   */
   public int countSolutions(){
-    return 4;
+    int count = 0;
+    return count;
   }
 
 }
