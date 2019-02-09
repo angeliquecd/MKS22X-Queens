@@ -16,7 +16,7 @@ board = new int[sized][sized];
 }
 public boolean addQueen(int r, int c){
   if (board[r][c]==0){//checks if it's safe
-  for (int inc=1;inc<size;inc++){
+  for (int inc=0;inc<size;inc++){
     board[inc][c]+=1;//eliminates the row
     board[r][inc]+=1;//eliminates the column
   }
@@ -34,8 +34,24 @@ public boolean addQueen(int r, int c){
   return true;}
   return false;
 }
-private boolean removeQueen(int r, int c){
-  board[r][c]=1;
+public boolean removeQueen(int r, int c){
+  if (board[r][c]==-1){
+  for (int inc=0;inc<size;inc++){
+    board[inc][c]-=1;//eliminates the row
+    board[r][inc]-=1;//eliminates the column
+  }
+  if (c<size-1){
+    if (r<size-1){
+  board[r+1][c+1]-=1;}
+  if (r>0){
+  board[r-1][c+1]-=1;}}
+  if (c>0){
+    if (r<size-1){
+  board[r+1][c-1]-=1;}
+  if (r>0){
+  board[r-1][c-1]-=1;}}//eliminates the diagonal parts
+  board[r][c]=0;
+  return true;}
   return false;
 }
 /**
@@ -65,9 +81,8 @@ private boolean removeQueen(int r, int c){
     String value="";
     for (int i=0;i<size;i++){
       for (int j=0;j<size;j++){
-      //if (board[i][j]==-1) value+="Q ";
-      //else
-      value+="_ ";}
+      if (board[i][j]==-1) value+="Q ";
+      else value+="_ ";}
       value+="\n";
     }
     return value;
