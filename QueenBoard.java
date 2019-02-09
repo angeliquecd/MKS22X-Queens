@@ -1,19 +1,37 @@
 public class QueenBoard{
 private int[][] board;
+private int size;
 /**0-safe
 1-not safe
 -1-queen
 
 **/
-public QueenBoard(int size){
-  board = board[size][size];
-  for (int i=0;i<size;i++){
-    for (int j=0;j<size;j++){
-    board[i][j]=0;}
+public QueenBoard(int sized){
+  size=sized;
+board = new int[sized][sized];
+  for (int i=0;i<sized;i++){
+    for (int j=0;j<sized;j++){
+      board[i][j]=0;}
   }
 }
-private boolean addQueen(int r, int c){
-  board[r][c]=-1;
+public boolean addQueen(int r, int c){
+  if (board[r][c]==0){//checks if it's safe
+  for (int inc=1;inc<size;inc++){
+    board[inc][c]+=1;//eliminates the row
+    board[r][inc]+=1;//eliminates the column
+  }
+  board[r][c]=-1;//puts down the queen
+  if (c<size-1){
+    if (r<size-1){
+  board[r+1][c+1]+=1;}
+  if (r>0){
+  board[r-1][c+1]+=1;}}
+  if (c>0){
+    if (r<size-1){
+  board[r+1][c-1]+=1;}
+  if (r>0){
+  board[r-1][c-1]+=1;}}//eliminates the diagonal parts
+  return true;}
   return false;
 }
 private boolean removeQueen(int r, int c){
@@ -34,12 +52,23 @@ private boolean removeQueen(int r, int c){
   *(pythonic string notation for clarity,
   *excludes the character up to the *)
   */
+  public String toStringDebug(){
+    String value=" ";
+    for(int i=0;i<board.length;i++){
+      for (int j=0;j<board.length;j++){
+        value+=board[i][j];}
+      value+="\n";
+    }
+    return value;
+  }
   public String toString(){
     String value="";
     for (int i=0;i<size;i++){
       for (int j=0;j<size;j++){
-      if (board[i][j]==-1) value+="Q ";
-      else value+="_ ";}
+      //if (board[i][j]==-1) value+="Q ";
+      //else
+      value+="_ ";}
+      value+="\n";
     }
     return value;
   }
@@ -52,15 +81,20 @@ private boolean removeQueen(int r, int c){
   *@throws IllegalStateException when the board starts with any non-zero value
   */
   public boolean solve(){
-    return solveHelper(size,0,0);
+    return solveHelper(size,0,0,false);
   }
-private boolean solveHelper(int size,int place,int putdown){
+private boolean solveHelper(int size,int queens,int putdown,boolean added){
   if (putdown==size) return true;
-  if(place==size) return false;
-  for (int i=0;i<size;i++){
-    if ()
-    addQueen(i,0);
-  3}
+  if(queens==size) return false;
+  int spot=0;
+  if (added) {
+    putdown++;
+    spot++;}
+  for (int i=0;i+spot<size && queens<size;i++){
+  //  spot=board[i+spot][queens];
+    solveHelper(size,queens+1,putdown, addQueen(i+spot,queens));
+  }
+  return false;
 }
   /**
   *@return the number of solutions found, and leaves the board filled with only 0's
