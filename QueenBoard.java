@@ -6,18 +6,18 @@ private int[][] board;
 
 **/
 public QueenBoard(int size){
-  board= board[size][size]
+  board = board[size][size];
   for (int i=0;i<size;i++){
     for (int j=0;j<size;j++){
     board[i][j]=0;}
   }
 }
 private boolean addQueen(int r, int c){
-  int[r][c]=-1;
+  board[r][c]=-1;
   return false;
 }
 private boolean removeQueen(int r, int c){
-  int[r][c]=1;
+  board[r][c]=1;
   return false;
 }
 /**
@@ -57,7 +57,10 @@ private boolean removeQueen(int r, int c){
 private boolean solveHelper(int size,int place,int putdown){
   if (putdown==size) return true;
   if(place==size) return false;
-  for (int i=0;i<size;i++)
+  for (int i=0;i<size;i++){
+    if ()
+    addQueen(i,0);
+  3}
 }
   /**
   *@return the number of solutions found, and leaves the board filled with only 0's
