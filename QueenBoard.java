@@ -22,19 +22,12 @@ public boolean addQueen(int r, int c){
     if (r-inc>0&& c-inc>0) board[r-inc][c-inc]+=1;
     if (r+inc<size && c+inc<size)board[r+inc][c+inc]+=1;
     if (r-inc>0&& c+inc<size) board[r-inc][c+inc]+=1;
-    if (r+inc<size && c-inc>0)board[r+inc][c-inc]+=1;
+    if (r+inc<size && c-inc>0)board[r+inc][c-inc]+=1;//diagonals
   }
-
-  /**if (c<size-1){
-    if (r<size-1) board[r+1][c+1]+=1;
-    if (r>0) board[r-1][c+1]+=1;}
-  if (c>0){
-    if (r<size-1) board[r+1][c-1]+=1;
-    if (r>0) board[r-1][c-1]+=1;}//eliminates the diagonal parts
-  **/board[r][c]=-1;//puts down the queen
-  System.out.println(this.toStringDebug());
+  board[r][c]=-1;//puts down the queen
+  //System.out.println(this.toStringDebug());
   return true;}
-  System.out.println(this.toStringDebug()+"no add");
+  //System.out.println(this.toStringDebug()+"no add");
   return false;
 }
 public boolean removeQueen(int r, int c){
@@ -45,12 +38,12 @@ public boolean removeQueen(int r, int c){
     if (r-inc>0&& c-inc>0) board[r-inc][c-inc]-=1;
     if (r+inc<size && c+inc<size)board[r+inc][c+inc]-=1;
     if (r-inc>0&& c+inc<size) board[r-inc][c+inc]-=1;
-    if (r+inc<size && c-inc>0)board[r+inc][c-inc]-=1;
+    if (r+inc<size && c-inc>0)board[r+inc][c-inc]-=1;//diagonals
   }
-  board[r][c]=0;
-  System.out.println(this.toStringDebug());
+  board[r][c]=0; //sets queen back to safe
+  //System.out.println(this.toStringDebug());
   return true;}
-  System.out.println(this.toStringDebug()+"no remove");
+//  System.out.println(this.toStringDebug()+"no remove");
   return false;
 }
 /**
@@ -108,32 +101,13 @@ try{
     //return solveHelper(size,0,0,0,false,0,0);
   }
   private boolean solveHelper(int size, int col){
-    if (col==size) return true;
-    for (int row=0;row<size;row++){
-      if (addQueen(col,row)){
-        if (solveHelper(size,col+1)) return true;
-        removeQueen(col,row);}
-      return false;
-      }
-      return true;
+    if (col==size) return true;//reached end of the board
+    for (int row=0;row<size;row++){//loops by row, inside shifts column
+      if (addQueen(row,col)){//if it's possible
+        if (solveHelper(size,col+1)) return true;//try with the next column
+        removeQueen(row,col);}}//if that doesn't work remove this one
+      return false;//f it reaches the end of the tow without putting one down
     }
-/**private boolean solveHelper2(int size,int col,int row,int putdown,boolean added, int lastrow,int lastcol){
-  if (putdown==size) return true;
-  if(col==size) return false;
-  if (row==size) {
-    removeQueen(lastrow,lastcol);
-    col--;}
-  if (added) {
-    putdown++;
-     lastrow=row;
-     lastcol=col;
-  }
-  for (int rowz=0;rowz<size && col<size;rowz++){
-    row=rowz;
-    solveHelper(size,col+1,row,putdown, addQueen(row,col+1),lastrow,lastcol);
-  }
-  return false;
-}**/
   /**
   *@return the number of solutions found, and leaves the board filled with only 0's
   *@throws IllegalStateException when the board starts with any non-zero value
