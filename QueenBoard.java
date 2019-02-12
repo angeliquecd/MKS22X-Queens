@@ -19,15 +19,22 @@ public boolean addQueen(int r, int c){
   for (int inc=0;inc<size;inc++){
     board[inc][c]+=1;//eliminates the row
     board[r][inc]+=1;//eliminates the column
+    if (r-inc>0&& c-inc>0) board[r-inc][c-inc]+=1;
+    if (r+inc<size && c+inc<size)board[r+inc][c+inc]+=1;
+    if (r-inc>0&& c+inc<size) board[r-inc][c+inc]+=1;
+    if (r+inc<size && c-inc>0)board[r+inc][c-inc]+=1;
   }
-  board[r][c]=-1;//puts down the queen
-  if (c<size-1){
+
+  /**if (c<size-1){
     if (r<size-1) board[r+1][c+1]+=1;
     if (r>0) board[r-1][c+1]+=1;}
   if (c>0){
     if (r<size-1) board[r+1][c-1]+=1;
     if (r>0) board[r-1][c-1]+=1;}//eliminates the diagonal parts
+  **/board[r][c]=-1;//puts down the queen
+  System.out.println(this.toStringDebug());
   return true;}
+  System.out.println(this.toStringDebug()+"no add");
   return false;
 }
 public boolean removeQueen(int r, int c){
@@ -35,15 +42,15 @@ public boolean removeQueen(int r, int c){
   for (int inc=0;inc<size;inc++){
     board[inc][c]-=1;//eliminates the row
     board[r][inc]-=1;//eliminates the column
+    if (r-inc>0&& c-inc>0) board[r-inc][c-inc]-=1;
+    if (r+inc<size && c+inc<size)board[r+inc][c+inc]-=1;
+    if (r-inc>0&& c+inc<size) board[r-inc][c+inc]-=1;
+    if (r+inc<size && c-inc>0)board[r+inc][c-inc]-=1;
   }
-  if (c<size-1){
-    if (r<size-1) board[r+1][c+1]-=1;
-  if (r>0)board[r-1][c+1]-=1;}
-  if (c>0){
-    if (r<size-1)board[r+1][c-1]-=1;
-    if (r>0) board[r-1][c-1]-=1;}//eliminates the diagonal parts
   board[r][c]=0;
+  System.out.println(this.toStringDebug());
   return true;}
+  System.out.println(this.toStringDebug()+"no remove");
   return false;
 }
 /**
@@ -88,9 +95,29 @@ public boolean removeQueen(int r, int c){
   *@throws IllegalStateException when the board starts with any non-zero value
   */
   public boolean solve(){
-    return solveHelper(size,0,0,0,false,0,0);
+try{
+    for (int i=0;i<size;i++){
+      for (int j=0;j<size;j++){
+        if (board[i][j]!=0) throw new IllegalStateException();
+      }
+    }}
+    catch (IllegalStateException e){
+      e.printStackTrace();
+    }
+    return solveHelper(size,0);
+    //return solveHelper(size,0,0,0,false,0,0);
   }
-private boolean solveHelper(int size,int col,int row,int putdown,boolean added, int lastrow,int lastcol){
+  private boolean solveHelper(int size, int col){
+    if (col==size) return true;
+    for (int row=0;row<size;row++){
+      if (addQueen(col,row)){
+        if (solveHelper(size,col+1)) return true;
+        removeQueen(col,row);}
+      return false;
+      }
+      return true;
+    }
+/**private boolean solveHelper2(int size,int col,int row,int putdown,boolean added, int lastrow,int lastcol){
   if (putdown==size) return true;
   if(col==size) return false;
   if (row==size) {
@@ -106,7 +133,7 @@ private boolean solveHelper(int size,int col,int row,int putdown,boolean added, 
     solveHelper(size,col+1,row,putdown, addQueen(row,col+1),lastrow,lastcol);
   }
   return false;
-}
+}**/
   /**
   *@return the number of solutions found, and leaves the board filled with only 0's
   *@throws IllegalStateException when the board starts with any non-zero value
