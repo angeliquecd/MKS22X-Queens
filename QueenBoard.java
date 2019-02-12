@@ -19,13 +19,13 @@ public boolean addQueen(int r, int c){
   for (int inc=0;inc<size;inc++){
     board[inc][c]+=1;//eliminates the row
     board[r][inc]+=1;//eliminates the column
-    if (r-inc>0&& c-inc>0) board[r-inc][c-inc]+=1;
+    if (r-inc>=0&& c-inc>=0) board[r-inc][c-inc]+=1;
     if (r+inc<size && c+inc<size)board[r+inc][c+inc]+=1;
-    if (r-inc>0&& c+inc<size) board[r-inc][c+inc]+=1;
-    if (r+inc<size && c-inc>0)board[r+inc][c-inc]+=1;//diagonals
+    if (r-inc>=0 && c+inc<size) board[r-inc][c+inc]+=1;
+    if (r+inc<size && c-inc>=0)board[r+inc][c-inc]+=1;//diagonals
   }
   board[r][c]=-1;//puts down the queen
-  //System.out.println(this.toStringDebug());
+//  System.out.println(this.toStringDebug());
   return true;}
   //System.out.println(this.toStringDebug()+"no add");
   return false;
@@ -35,15 +35,15 @@ public boolean removeQueen(int r, int c){
   for (int inc=0;inc<size;inc++){
     board[inc][c]-=1;//eliminates the row
     board[r][inc]-=1;//eliminates the column
-    if (r-inc>0&& c-inc>0) board[r-inc][c-inc]-=1;
+    if (r-inc>=0&& c-inc>=0) board[r-inc][c-inc]-=1;
     if (r+inc<size && c+inc<size)board[r+inc][c+inc]-=1;
-    if (r-inc>0&& c+inc<size) board[r-inc][c+inc]-=1;
-    if (r+inc<size && c-inc>0)board[r+inc][c-inc]-=1;//diagonals
+    if (r-inc>=0&& c+inc<size) board[r-inc][c+inc]-=1;
+    if (r+inc<size && c-inc>=0)board[r+inc][c-inc]-=1;//diagonals
   }
   board[r][c]=0; //sets queen back to safe
-  //System.out.println(this.toStringDebug());
+//  System.out.println(this.toStringDebug());
   return true;}
-//  System.out.println(this.toStringDebug()+"no remove");
+  //System.out.println(this.toStringDebug()+"no remove");
   return false;
 }
 /**
