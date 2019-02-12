@@ -88,23 +88,19 @@ public boolean removeQueen(int r, int c){
   *@throws IllegalStateException when the board starts with any non-zero value
   */
   public boolean solve(){
-try{
-    for (int i=0;i<size;i++){
+    for (int i=0;i<size;i++){//exception handling
       for (int j=0;j<size;j++){
         if (board[i][j]!=0) throw new IllegalStateException();
       }
-    }}
-    catch (IllegalStateException e){
-      e.printStackTrace();
     }
-    return solveHelper(size,0);
+    return solveHelper(0);
     //return solveHelper(size,0,0,0,false,0,0);
   }
-  private boolean solveHelper(int size, int col){
+  private boolean solveHelper( int col){
     if (col==size) return true;//reached end of the board
     for (int row=0;row<size;row++){//loops by row, inside shifts column
       if (addQueen(row,col)){//if it's possible
-        if (solveHelper(size,col+1)) return true;//try with the next column
+        if (solveHelper(col+1)) return true;//try with the next column
         removeQueen(row,col);}}//if that doesn't work remove this one
       return false;//f it reaches the end of the tow without putting one down
     }
@@ -113,8 +109,21 @@ try{
   *@throws IllegalStateException when the board starts with any non-zero value
   */
   public int countSolutions(){
-    int count = 0;
-    return count;
+    for (int i=0;i<size;i++){//exception handling
+      for (int j=0;j<size;j++){
+        if (board[i][j]!=0) throw new IllegalStateException();
+      }
+    }
+    return countHelper(0);
   }
+  public int countHelper(int col){
+    int count=0;
+    if (col==size) return 1;//reached end of the board = 1 solution
+    for (int row=0;row<size;row++){//loops by row, inside shifts column
+      if (addQueen(row,col)){//if it's possible
+        count += countHelper(col+1);//try with the next column
+        removeQueen(row,col);}}//solves as usual
+      return count;//f it reaches the end of the row without finding a new solution, returns final count
+    }
 
 }
